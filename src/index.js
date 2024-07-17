@@ -1,37 +1,37 @@
 import 'styles/index.css';
+import { initialCards } from 'scripts/cards.js';
+import { createCard, deleteCard } from 'scripts/card.js';
+import { openModal, closeModal } from 'scripts/modal.js';
 
-import logo from 'images/logo.svg';
-import addIcon from 'images/add-icon.svg';
-import closeIcon from 'images/close.svg';
-import deleteIcon from 'images/delete-icon.svg';
-import editIcon from 'images/edit-icon.svg';
-import likeActiveIcon from 'images/like-active.svg';
-import likeInActiveIcon from 'images/like-inactive.svg';
-import avatar from 'images/avatar.jpg';
-import card1 from 'images/card_1.jpg';
-import card2 from 'images/card_2.jpg';
-import card3 from 'images/card_3.jpg';
+const container = document.querySelector('.places__list');
+const profileEditButton = document.querySelector('.profile__edit-button');
+const profileAddButton = document.querySelector('.profile__add-button');
+const profileCloseButton = document.querySelectorAll('.popup__close');
 
-import interRegular from 'fonts/Inter-Regular.woff2';
-import interMedium from 'fonts/Inter-Medium.woff2';
-import interBlack from 'fonts/Inter-Black.woff2';
+profileEditButton.addEventListener('click', () => openModal('.popup_type_edit'));
+profileAddButton.addEventListener('click', () => openModal('.popup_type_new-card'));
+profileCloseButton.forEach((item) => {
+  item.addEventListener('click', () => {
+    closeModal('.popup');
+  });
+});
 
-// const images = [
-//   { name: 'logo', link: logo },
-//   { name: 'addIcon', link: addIcon },
-//   { name: 'closeIcon', link: closeIcon },
-//   { name: 'deleteIcon', link: deleteIcon },
-//   { name: 'editIcon', link: editIcon },
-//   { name: 'likeActiveIcon', link: likeActiveIcon },
-//   { name: 'likeInActiveIcon', link: likeInActiveIcon },
-//   { name: 'avatar', link: avatar },
-//   { name: 'card1', link: card1 },
-//   { name: 'card2', link: card2 },
-//   { name: 'card3', link: card3 },
-// ];
+const formElement = document.forms['edit-profile'];
 
-// const fonts = [
-//   { name: 'interRegular', link: interRegular },
-//   { name: 'interMedium', link: interMedium },
-//   { name: 'interBlack', link: interBlack },
-// ];
+function handleFormSubmit(evt) {
+  evt.preventDefault();
+
+  const nameInput = formElement.name;
+  const jobInput = formElement.description.value;
+  const profileTitle = document.querySelector('.profile__title');
+  const profileDescription = document.querySelector('.profile__description');
+
+  profileTitle.textContent(nameInput);
+  profileDescription.textContent(jobInput);
+}
+
+formElement.addEventListener('submit', () => handleFormSubmit());
+
+initialCards.forEach((card) => {
+  container.append(createCard(card, deleteCard));
+});
