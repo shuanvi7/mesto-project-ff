@@ -1,5 +1,5 @@
 export function openModal(modal) {
-  document.querySelector(modal).classList.add('popup_is-opened');
+  modal.classList.add('popup_is-opened');
 }
 
 export function closeModal(modal) {
@@ -14,7 +14,7 @@ export function closeModalOnOverlay(evt) {
 
 export function closeModalOnEscape(event) {
   if (event.key === 'Escape') {
-    const currentPopup = document.querySelector('.popup_is-opened');
-    closeModal(currentPopup);
+    const currentPopup = document.querySelectorAll('.popup_is-opened');
+    currentPopup.forEach((item) => closeModal(item));
   }
 }
