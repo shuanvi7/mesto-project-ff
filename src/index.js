@@ -1,7 +1,7 @@
 import 'styles/index.css';
 import { initialCards } from 'components/cards.js';
 import { createCard, deleteCard } from 'components/card.js';
-import { openModal, closeModal, closeModalOnOverlay, closeModalOnEscape } from 'components/modal.js';
+import { openModal, closeModal, closeModalOnOverlay } from 'components/modal.js';
 
 const container = document.querySelector('.places__list');
 
@@ -22,25 +22,29 @@ const formAddPlace = document.forms['new-place'];
 const formEditPlaceName = formAddPlace['place-name'];
 const formEditPlaceImage = formAddPlace['link'];
 
-profileEditButton.addEventListener('click', () => openModal(modalEditProfile));
+profileEditButton.addEventListener('click', () => {
+  formEditName.value = profileTitle.textContent;
+  formEditDescription.value = profileDescription.textContent;
+  openModal(modalEditProfile);
+});
 newPlaceButton.addEventListener('click', () => openModal(modalAddPlace));
 
 document.addEventListener('click', (event) => {
   if (event.target.classList.contains('popup__close')) {
-    closeModal(event.target.parentNode.parentNode);
+    closeModal(event.target.closest('.popup'));
   }
 });
 
 modals.forEach((modal) => {
   modal.addEventListener('click', (event) => closeModalOnOverlay(event));
-  document.addEventListener('keydown', (event) => closeModalOnEscape(event));
 });
 
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
   profileTitle.textContent = formEditName.value;
   profileDescription.textContent = formEditDescription.value;
-  closeModal(evt.target.parentNode.parentNode);
+
+  closeModal(modalEditProfile);
 }
 
 function handleLikeCard(evt) {
@@ -60,11 +64,8 @@ function handlePlaceFormSubmit(evt) {
   container.prepend(createCard(newPlace, deleteCard, handleLikeCard, handleOpenModalCard));
 
   formAddPlace.reset();
-  closeModal(evt.target.parentNode.parentNode);
+  closeModal(modalAddPlace);
 }
-
-formEditName.value = profileTitle.textContent;
-formEditDescription.value = profileDescription.textContent;
 
 formEditProfile.addEventListener('submit', handleProfileFormSubmit);
 formAddPlace.addEventListener('submit', handlePlaceFormSubmit);

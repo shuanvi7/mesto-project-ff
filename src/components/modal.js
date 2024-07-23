@@ -1,9 +1,11 @@
 export function openModal(modal) {
   modal.classList.add('popup_is-opened');
+  document.addEventListener('keydown', closeModalOnEscape);
 }
 
 export function closeModal(modal) {
   modal.classList.remove('popup_is-opened');
+  document.removeEventListener('keydown', closeModalOnEscape);
 }
 
 export function closeModalOnOverlay(evt) {
@@ -14,7 +16,7 @@ export function closeModalOnOverlay(evt) {
 
 export function closeModalOnEscape(event) {
   if (event.key === 'Escape') {
-    const currentPopup = document.querySelectorAll('.popup_is-opened');
-    currentPopup.forEach((item) => closeModal(item));
+    const currentPopup = document.querySelector('.popup_is-opened');
+    closeModal(currentPopup);
   }
 }
