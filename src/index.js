@@ -22,6 +22,9 @@ const formAddPlace = document.forms['new-place'];
 const formEditPlaceName = formAddPlace['place-name'];
 const formEditPlaceImage = formAddPlace['link'];
 
+const cardImageModal = document.querySelector('.popup__image');
+const cardImageModalTitle = document.querySelector('.popup__caption');
+
 profileEditButton.addEventListener('click', () => {
   formEditName.value = profileTitle.textContent;
   formEditDescription.value = profileDescription.textContent;
@@ -51,7 +54,10 @@ function handleLikeCard(evt) {
   evt.target.classList.toggle('card__like-button_is-active');
 }
 
-function handleOpenModalCard() {
+function handleOpenModalCard(cardData) {
+  cardImageModal.src = cardData.link;
+  cardImageModal.alt = cardData.name;
+  cardImageModalTitle.textContent = cardData.name;
   openModal(modalPlaceImage);
 }
 

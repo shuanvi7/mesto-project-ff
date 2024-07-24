@@ -5,8 +5,6 @@ export function createCard(cardData, deleteCard, likeCard, openModal) {
   const cardTitle = cardElement.querySelector('.card__title');
   const cardDelete = cardElement.querySelector('.card__delete-button');
   const cardLikeButton = cardElement.querySelector('.card__like-button');
-  const cardImageModal = document.querySelector('.popup__image');
-  const cardImageModalTitle = document.querySelector('.popup__caption');
 
   cardImage.src = cardData.link;
   cardImage.alt = cardData.name;
@@ -14,10 +12,7 @@ export function createCard(cardData, deleteCard, likeCard, openModal) {
   cardDelete.addEventListener('click', () => deleteCard(cardElement));
   cardLikeButton.addEventListener('click', (evt) => likeCard(evt));
   cardImage.addEventListener('click', () => {
-    cardImageModal.src = cardData.link;
-    cardImageModal.alt = cardData.name;
-    cardImageModalTitle.textContent = cardData.name;
-    openModal();
+    openModal(cardData);
   });
 
   return cardElement;
