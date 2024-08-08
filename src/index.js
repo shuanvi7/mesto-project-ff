@@ -2,6 +2,7 @@ import 'styles/index.css';
 import { initialCards } from 'components/cards.js';
 import { createCard, deleteCard } from 'components/card.js';
 import { openModal, closeModal, closeModalOnOverlay } from 'components/modal.js';
+import { enableValidation, clearValidation } from 'components/validation.js';
 
 const container = document.querySelector('.places__list');
 
@@ -24,6 +25,15 @@ const formEditPlaceImage = formAddPlace['link'];
 
 const cardImageModal = document.querySelector('.popup__image');
 const cardImageModalTitle = document.querySelector('.popup__caption');
+
+const validationConfig = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible',
+};
 
 profileEditButton.addEventListener('click', () => {
   formEditName.value = profileTitle.textContent;
@@ -79,3 +89,5 @@ formAddPlace.addEventListener('submit', handlePlaceFormSubmit);
 initialCards.forEach((card) => {
   container.append(createCard(card, deleteCard, handleLikeCard, handleOpenModalCard));
 });
+
+enableValidation(validationConfig);
