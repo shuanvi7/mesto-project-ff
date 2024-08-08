@@ -3,6 +3,7 @@ import { initialCards } from 'components/cards.js';
 import { createCard, deleteCard } from 'components/card.js';
 import { openModal, closeModal, closeModalOnOverlay } from 'components/modal.js';
 import { enableValidation, clearValidation } from 'components/validation.js';
+import { getCards, getUserInfo } from 'components/api.js';
 
 const container = document.querySelector('.places__list');
 
@@ -90,4 +91,20 @@ initialCards.forEach((card) => {
   container.append(createCard(card, deleteCard, handleLikeCard, handleOpenModalCard));
 });
 
+let userId = '';
+function setUserInfo(user) {
+  userNameElement.textContent = user.name;
+  userJobElement.textContent = user.about;
+  avatarImage.setAttribute('style', `background-image: url('${user.avatar}')`);
+  userId = user._id;
+}
+
 enableValidation(validationConfig);
+
+Promise.all([getUserInfo(), getCards()])
+  .then(([user, cards]) => {
+    setUserInfo(user);
+  })
+  .catch((err) => {
+    console.error('Произошла ошибка при получении данных:', err);
+  });
